@@ -1,6 +1,7 @@
 {
   "env": {
     "MONGO_USER": "dumabre",
-    "MONGO_PASSWORD": "Iqos22102007"
+    "MONGO_PASSWORD": "Iqos22102007",
+    "MONGO_DB": "mongodb-react-app"
   }
 }
