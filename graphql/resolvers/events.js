@@ -1,4 +1,5 @@
 const Event = require("../../models/event");
+const User = require("../../models/user");
 const { transformEvent } = require("./merge");
 
 module.exports = {
@@ -14,19 +15,22 @@ module.exports = {
   },
 
   //Kreiranje Eventova (mutacija podataka u bazi)
-  createEvent: async args => {
+  createEvent: async (args, req) => {
+    if (!req.isAuth) {
+      throw new Error("Unauthorized");
+    }
     const event = new Event({
       title: args.eventInput.title,
       description: args.eventInput.description,
       price: +args.eventInput.price,
       date: new Date(args.eventInput.date),
-      creator: "5d9ccde207f61703ccf7f021"
+      creator: req.userId
     });
     let createdEvent;
     try {
       const result = await event.save();
       createdEvent = transformEvent(result);
-      const user = await User.findById("5d9ccde207f61703ccf7f021");
+      const user = await User.findById(req.userId);
       if (!user) {
         throw new Error("User not found.");
       }
