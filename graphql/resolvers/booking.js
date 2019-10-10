@@ -8,7 +8,7 @@ module.exports = {
       throw new Error("Unauthorized");
     }
     try {
-      const booking = await Booking.find();
+      const booking = await Booking.find({ user: req.userId });
       return booking.map(booking => {
         return transformBooking(booking);
       });
